@@ -17,8 +17,7 @@ function SignUp() {
   const dispatch = useDispatch();
   const { auth, otpStatus } = useSelector(store => store)
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    userName: '',
     email: '',
     password: ''
   });
@@ -105,7 +104,8 @@ function SignUp() {
     e.preventDefault();
     // Dispatch the register action with form data
     dispatch(register(formData));
-    navigate("/login"); // Navigate to login page after registration
+    alert("user registered successfully")
+    navigate("/"); // Navigate to Home Page
   };
 
   return (
@@ -131,10 +131,7 @@ function SignUp() {
                   Sign Up
                 </h1>
                 <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSendOtp();
-                  }}
+                  onSubmit={handleSubmit}
                   action="#"
                   method="post"
                   className="space-y-4"
@@ -195,7 +192,7 @@ function SignUp() {
                     className="font-Calistoga bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg mt-6 p-2 text-white rounded-lg w-full hover:scale-105 hover:from-purple-500 hover:to-blue-500 transition duration-300 ease-in-out"
                     type="submit"
                   >
-                    Send OTP
+                    SignUp
                   </button>
                 </form>
                 <div className="flex flex-col mt-4 items-center justify-center text-sm">

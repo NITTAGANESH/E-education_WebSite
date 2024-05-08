@@ -1,38 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../../State/Auth/Action";
+import { getUser } from "../../../State/Auth/Action";
+import { useDispatch, useSelector } from "react-redux";
 
 import IMG from "../../../assets/E- education logo .png";
 
 function SignUpContent() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem('jwt')
+  const { auth } = useSelector(store => store)
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    userName: '',
+    email: '',
+    password: ''
+  });
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getUser(jwt))
+    }
+  }, [jwt, auth.jwt])
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3465/api/v1/user/save",
-        {
-          employeename: username,
-          email: email,
-          password: password,
-        }
-      );
-      alert("Employee Registration Successfully");
-
-      // Handle success response
-      console.log("Response:", response.data);
-      // Redirect to login page upon successful signup
-      navigate("/Login");
-    } catch (error) {
-      // Handle error
-      console.error("Error:", error);
-    }
-  };
+    // Dispatch the register action with form data
+    dispatch(register(formData))
+      .then(() => {
+        // Clear the form fields after successful signup
+        setFormData({
+          userName: '',
+          email: '',
+          password: ''
+        });
+        alert("User registered successfully");
+        navigate("/"); // Navigate to Home Page
+      })
+      .catch((error) => {
+        // Handle any errors from the registration process
+        console.error("Registration error:", error);
+        // Optionally, you can display an error message to the user
+      });
+  }
 
   return (
     <>
@@ -84,13 +99,13 @@ function SignUpContent() {
                       User Name
                     </label>
                     <input
-                      id="name"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      className="border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300"
-                      type="name"
-                      placeholder="Name"
+                      id='userName'
+                      className='border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300'
+                      name='userName'
+                      label='UserName'
+                      placeholder='User'
                       required
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
@@ -101,13 +116,13 @@ function SignUpContent() {
                       Email
                     </label>
                     <input
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300"
-                      type="email"
-                      placeholder="Email"
+                      id='email'
+                      className='border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300'
+                      name='email'
+                      label='Email'
+                      placeholder='Email'
                       required
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
@@ -118,13 +133,14 @@ function SignUpContent() {
                       Password
                     </label>
                     <input
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 mb-2 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300"
+                      id='password'
+                      className='border dark:bg-indigo-700 dark:text-gray-300 dark:border-gray-700 p-3 shadow-md placeholder:text-base border-gray-300 rounded-lg w-full focus:scale-105 ease-in-out duration-300'
+                      name='password'
+                      label='Password'
+                      placeholder='password'
                       type="password"
-                      placeholder="Password"
                       required
+                      onChange={handleChange}
                     />
                   </div>
                   <button

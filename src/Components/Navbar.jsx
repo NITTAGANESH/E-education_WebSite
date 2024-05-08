@@ -85,8 +85,8 @@ const Navbar = () => {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className='flex flex-1 items-center justify-between sm:justify-start'>
-                <div className='flex flex-shrink-0 items-center'>
+              <div className='flex flex-1 items-center justify-between sm:justify-start pr-3'>
+                <div className='flex  items-center'>
                   <Link to='/'>
                     <img
                       className='h-14 cursor-pointer'
@@ -124,7 +124,7 @@ const Navbar = () => {
 3 py-2 mt-2 text-sm font-medium ml-4 mb-2'>Feeds</Link>
                   {/* Ask Me Later */}
                   <Link to='/QuestionForm' className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 mt-2 text-sm font-medium ml-4 mb-2'>
-                    Ask Me Later
+                    Ask Me
                   </Link>
                   {/* Dropdown menu */}
                   <div className='relative inline-block'>
@@ -135,7 +135,7 @@ const Navbar = () => {
                     >
                       {/* User initials */}
                       <span className='p-3 w-12 rounded-full bg-blue-400 text-white font-bold text-center cursor-pointer'>
-                        {auth.user.firstName[0].toUpperCase()}
+                        {auth.user.userName[0].toUpperCase()}
                       </span>
                       {/* Dropdown arrow icon */}
                       <svg

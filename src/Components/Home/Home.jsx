@@ -16,7 +16,8 @@ import SlideInTimer from "./Timer/SlideInTimer";
 import ImageHomePage from "../Home/Plat form/AllCourses/ImageHomepage";
 import SingupHome from "../Home/SingUpHome/SignUpHome";
 import StartNewCarrer from "./StartNewCarrer/StartNewCarrer";
-function Home({ usernameFirstLetter }) {
+import { useSelector } from "react-redux";
+function Home() {
   // const [activeTab, setActiveTab] = useState("tab1");
 
   // useEffect(() => {
@@ -28,12 +29,13 @@ function Home({ usernameFirstLetter }) {
   //   // Update active tab
   //   setActiveTab(tabId);
   // }
+  const { auth } = useSelector((store) => store);
 
   return (
     <>
-      <Navbar usernameFirstLetter={usernameFirstLetter} />
+      <Navbar />
       <Main />
-    <StartNewCarrer />
+      <StartNewCarrer />
       {/* <div className="w-full mt-10 px-16">
       
         {/* <div className="p-2 rounded-t-lg overflow-x-auto">
@@ -158,7 +160,7 @@ function Home({ usernameFirstLetter }) {
 
       <Pricing />
       <SlideInTimer />
-      <SingupHome />
+      {!auth.user && <SingupHome />}
       <FinalTestimonials />
       <Footer />
     </>
